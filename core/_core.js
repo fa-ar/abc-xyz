@@ -1,5 +1,7 @@
 'use strict'
 
+import { determineNodeType } from './_utils.js'
+
 ///
 function create ( tag, { attributes={}, children=[] } = {} ) {
 
@@ -18,23 +20,6 @@ function create ( tag, { attributes={}, children=[] } = {} ) {
 
 }
 
-/// function that determines the type of node
-function determineNodeType ( virtualNode ) {
-    
-    if ( typeof virtualNode === 'string') {
-
-        
-        return document.createTextNode ( virtualNode ) 
-
-    }
-
-    else {
-
-        return render ( virtualNode )        
-
-    }
-
-}
 
 ///
 function render ( { tag, attributes, children } ) {
