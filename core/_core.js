@@ -1,8 +1,7 @@
-/// Imports
-import { determineNodeType } from './_utils.js'
+'use strict'
 
-/// creator function
-function create ( tag, { attributes={}, children=[] } ) {
+///
+function create ( tag, { attributes={}, children=[] } = {} ) {
 
     // create element
     const virtualElement = Object.create ( null )
@@ -11,48 +10,72 @@ function create ( tag, { attributes={}, children=[] } ) {
 
         tag, 
         attributes,
-        children
-
+        children,
+    
     } )
 
     return virtualElement
 
 }
 
-/// rendering function
-function render ( { tag, attributes, children } ) {
+/// function that determines the type of node
+function determineNodeType ( virtualNode ) {
+    
+    if ( typeof virtualNode === 'string') {
 
+        
+        return document.createTextNode ( virtualNode ) 
+
+    }
+
+    else {
+
+        return render ( virtualNode )        
+
+    }
+
+}
+
+///
+function render ( { tag, attributes, children } ) {
+ 
     // create the actual DOM element
     const element = document.createElement ( tag )
-
-    // add all the attributes specified in the virtualNode.attributes
+    
+    // add all attributes as specified in virtualNode.attributes
     for ( const [ key, value ] of Object.entries ( attributes ) ) {
 
         element.setAttribute ( key, value )
 
     }
 
-    // append all the children
+    // append all children 
     for ( const child of children ) {
 
         element.appendChild ( determineNodeType ( child ) )
 
     }
 
+    //
+
     return element
 
 }
 
 
-/// 
+///
 function add ( virtualNode, container ) {
 
-    container.replaceWith ( virtualNode )
+    container.appendChild ( virtualNode )
 
     return virtualNode
 
 }
 
-/// Exports
 
-export { create, render, add }
+///
+function remove () {}
+
+
+/// Exports
+export { create, render, add, remove, determineNodeType }
