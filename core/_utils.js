@@ -19,12 +19,19 @@ function applyClasses ( classes=[] ) {
 }
 
 /// function to determine what type of node's being passed down
+/// function that determines the type of node
 function determineNodeType ( virtualNode ) {
+    
+    if ( typeof virtualNode === 'string') {
 
-    if ( typeof virtualNode === 'string' ) {
+        
+        return document.createTextNode ( virtualNode ) 
 
-        let text = document.createElement ( 'p' )
-        text.appendChild ( document.createTextNode ( virtualNode ) )
+    }
+
+    else {
+
+        return render ( virtualNode )        
 
     }
 
